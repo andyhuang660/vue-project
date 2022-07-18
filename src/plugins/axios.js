@@ -32,7 +32,7 @@ apiAuth.interceptors.response.use(res => {
           // 使用新的 JWT 再次嘗試原始請求
           error.config.headers.authorization = `Bearer ${user.token}`
           return axios(error.config)
-        }).catch(_ => {
+        }).catch(error => {
           // 重新登入失敗，強制登出
           user.logout()
           // 回傳延長登入請求的錯誤訊息到呼叫的地方

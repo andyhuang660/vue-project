@@ -40,6 +40,36 @@ const router = createRouter({
             login: false,
             admin: false
           }
+        },
+        {
+          path: 'cart',
+          name: 'cart',
+          component: () => import('@/views/front/CartView.vue'),
+          meta: {
+            title: '購物網 | 購物車',
+            login: true,
+            admin: false
+          }
+        },
+        {
+          path: 'order',
+          name: 'order',
+          component: () => import('@/views/front/OrderView.vue'),
+          meta: {
+            title: '購物網 | 訂單',
+            login: true,
+            admin: false
+          }
+        },
+        {
+          path: 'product/:id',
+          name: 'product',
+          component: () => import('@/views/front/ProductView.vue'),
+          meta: {
+            title: '購物網',
+            login: false,
+            admin: false
+          }
         }
       ]
     },

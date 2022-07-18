@@ -68,6 +68,85 @@ export const useUserStore = defineStore({
       this.account = ''
       this.role = 0
       this.cart = 0
+    },
+    async addCart (data) {
+      if (this.token.length === 0) {
+        Swal.fire({
+          icon: 'error',
+          title: '失敗',
+          text: '請先登入'
+        })
+        router.push('/login')
+        return
+      }
+      if (data.quantity <= 0) {
+        Swal.fire({
+          icon: 'error',
+          title: '失敗',
+          text: '數量必須大於 0'
+        })
+        return
+      }
+      try {
+        const { data: resData } = await apiAuth.post('/users/cart', data)
+        this.cart = resData.result
+        Swal.fire({
+          icon: 'success',
+          title: '成功',
+          text: '加入購物車成功'
+        })
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '失敗',
+          text: '加入購物車失敗'
+        })
+      }
+    },
+    async updateCart (data) {
+      try {
+        await apiAuth.patch('/users/cart', data)
+        return true
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '失敗',
+          text: '更新購物車失敗'
+        })
+        return false
+      }
+    }, async checkout () {
+      try {
+        await apiAuth.post('/orders')
+        this.cart = 0
+        Swal.fire({
+          icon: 'success',
+          title: '成功',
+          text: '結帳成功'
+        })
+        router.push('/order')
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '失敗',
+          text: '結帳失敗'
+        })
+      }
+    },
+    async getUser () {
+      if (this.token.length === 0) return
+      try {
+        const { data } = await apiAuth.get('/users')
+        this.account = data.result.account
+        this.role = data.result.role
+        this.cart = data.result.cart
+      } catch (error) {
+        this.logout()
+      }
     }
+  },
+  persist: {
+    key: 'vite-shop',
+    paths: ['token']
   }
 })

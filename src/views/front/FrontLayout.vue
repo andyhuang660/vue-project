@@ -7,7 +7,7 @@ v-app-bar(color='primary')
     v-btn(v-if='isLogin' to='/cart' prepend-icon='mdi-cart')
       v-badge(color='error' dot floating v-if='cart > 0') 購物車
       span(v-else) 購物車
-    v-btn(v-if='isLogin' to='/orders' prepend-icon='mdi-format-list-bulleted') 訂單
+    v-btn(v-if='isLogin' to='/order' prepend-icon='mdi-format-list-bulleted') 訂單
     v-btn(v-if='isLogin && isAdmin' to='/admin' prepend-icon='mdi-account') 管理
     v-btn(v-if='isLogin' prepend-icon='mdi-logout' @click='logout') 登出
 v-main
